@@ -242,3 +242,5 @@ Temporary Items
 .history
 
 # End of https://www.toptal.com/developers/gitignore/api/macos,visualstudiocode,python,flask
+
+db.py

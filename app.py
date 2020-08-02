@@ -10,6 +10,6 @@ def hello_world():
 
 
 @app.route('/<route>')
-def show_user_profile(route):
+def redirect_user(route):
     doc = urls.find_one({"shortLink": route})
     return redirect(doc['redirectTo'])

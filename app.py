@@ -1,4 +1,6 @@
 from flask import Flask, redirect, request
+from pymongo.errors import DuplicateKeyError
+
 from db import urls
 from mongoflask import MongoJSONEncoder, ObjectIdConverter
 
@@ -21,5 +23,10 @@ def redirect_user(route):
 @app.route('/addShortLink', methods=['POST'])
 def add_short_link():
     doc = request.get_json()
-    urls.insert_one(doc)
+    try:
+        urls.insert_one(doc)
+    except DuplicateKeyError:
+        doc = {
+            "error": "not unique short id"
+        }
     return doc

@@ -1,4 +1,4 @@
-from flask import Flask, redirect, request
+from flask import Flask, redirect, request, jsonify
 from pymongo.errors import DuplicateKeyError
 
 from db import urls
@@ -20,13 +20,31 @@ def redirect_user(route):
     return redirect(doc['redirectTo'])
 
 
+class Error(Exception):
+    def __init__(self, message, status_code=None, payload=None):
+        Exception.__init__(self)
+        self.message = message
+        self.status_code = status_code
+        self.payload = payload
+
+    def to_dict(self):
+        rv = dict(self.payload or ())
+        rv['message'] = self.message
+        return rv
+
+
+@app.errorhandler(Error)
+def handle_invalid_usage(error):
+    response = jsonify(error.to_dict())
+    response.status_code = error.status_code
+    return response
+
+
 @app.route('/addShortLink', methods=['POST'])
 def add_short_link():
     doc = request.get_json()
     try:
         urls.insert_one(doc)
+        return doc
     except DuplicateKeyError:
-        doc = {
-            "error": "not unique short id"
-        }
-    return doc
+        raise Error("not unique short id", status_code=409)

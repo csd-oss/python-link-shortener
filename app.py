@@ -1,10 +1,7 @@
 from flask import Flask, redirect, request
 from db import urls
-from mongoflask import MongoJSONEncoder, ObjectIdConverter
 
 app = Flask(__name__)
-app.json_encoder = MongoJSONEncoder
-app.url_map.converters['objectid'] = ObjectIdConverter
 
 
 @app.route('/')

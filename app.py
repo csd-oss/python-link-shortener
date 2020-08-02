@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, redirect
 app = Flask(__name__)
 
 
@@ -7,6 +7,12 @@ def hello_world():
     return 'Hello, World!'
 
 
-@app.route('/<username>')
-def show_user_profile(username):
-    return f'Link {username}'
+doc = {
+    "originalLink": "https://github.com/csd-oss/python-link-shortener",
+    "redirectTo": "https://github.com/csd-oss/python-link-shortener"
+}
+
+
+@app.route('/<route>')
+def show_user_profile(route):
+    return redirect(doc['redirectTo'])

@@ -5,6 +5,7 @@ import json
 
 from db import urls
 from mongoflask import MongoJSONEncoder, ObjectIdConverter
+from device_parser import device_parser
 
 app = Flask(__name__)
 app.json_encoder = MongoJSONEncoder
@@ -43,6 +44,7 @@ def redirect_user(route):
         url = doc['callbackUrl']
         doc['_id'] = str(doc['_id'])
         doc['userAgent'] = request.headers.get('User-Agent')
+        doc['device'] = device_parser(doc['userAgent'])
         headers = {'content-type': 'application/json'}
         requests.request(
             "POST", url, data=json.dumps(doc), headers=headers

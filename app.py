@@ -22,6 +22,7 @@ def redirect_user(route):
     try:
         url = doc['callbackUrl']
         doc['_id'] = str(doc['_id'])
+        doc['userAgent'] = request.headers.get('User-Agent')
         headers = {'content-type': 'application/json'}
         requests.request(
             "POST", url, data=json.dumps(doc), headers=headers

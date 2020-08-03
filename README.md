@@ -19,7 +19,7 @@ When smbd follows the link, sends info about it send to ```callbackUrl``` toghet
 - [ ] Parce User Agent
 - [ ] Web interfaice
 - [ ] Better Error Handling
-  - [ ] No doc found
+  - [x] No doc found
   - [ ] No requered arguments passed 
 - [ ] API Documentation
 - [ ] Instructions about how to set up it

@@ -66,4 +66,4 @@ def add_short_link():
         urls.insert_one(doc)
         return doc
     except DuplicateKeyError:
-        raise Error("not unique short id", status_code=409)
+        raise Error("Not unique shortId", status_code=409)

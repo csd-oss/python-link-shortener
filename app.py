@@ -1,5 +1,7 @@
 from flask import Flask, redirect, request, jsonify
 from pymongo.errors import DuplicateKeyError
+import requests
+import json
 
 from db import urls
 from mongoflask import MongoJSONEncoder, ObjectIdConverter
@@ -17,7 +19,16 @@ def hello_world():
 @app.route('/<route>')
 def redirect_user(route):
     doc = urls.find_one({"shortLink": route})
-    return redirect(doc['redirectTo'])
+    try:
+        url = doc['callbackUrl']
+        doc['_id'] = str(doc['_id'])
+        headers = {'content-type': 'application/json'}
+        requests.request(
+            "POST", url, data=json.dumps(doc), headers=headers
+            )
+        return redirect(doc['redirectTo'])
+    except KeyError:
+        return redirect(doc['redirectTo'])
 
 
 class Error(Exception):

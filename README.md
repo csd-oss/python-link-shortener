@@ -17,7 +17,7 @@ When smbd follows the link, sends info about it send to ```callbackUrl``` toghet
 
 ## TO-DO
 - [x] Parce User Agent
-- [ ] Add time to link followed
+- [x] Add time to link followed
 - [ ] Web interface
 - [ ] Better Error Handling
   - [x] No doc found

@@ -2,6 +2,7 @@ from flask import Flask, redirect, request, jsonify
 from pymongo.errors import DuplicateKeyError
 import requests
 import json
+import time
 
 from db import urls
 from mongoflask import MongoJSONEncoder, ObjectIdConverter
@@ -43,6 +44,8 @@ def redirect_user(route):
     try:
         url = doc['callbackUrl']
         doc['_id'] = str(doc['_id'])
+
+        doc['timestamp'] = time.time()
         doc['userAgent'] = request.headers.get('User-Agent')
         doc['device'] = device_parser(doc['userAgent'])
         headers = {'content-type': 'application/json'}

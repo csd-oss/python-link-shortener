@@ -64,6 +64,9 @@ def redirect_user(route):
 def add_short_link():
     doc = request.get_json()
     try:
+        # TODO Check neccecary fields
+        # Check neccecary fields exists and not null,
+        # if short link is not passed, than generate random one
         urls.insert_one(doc)
         return doc
     except DuplicateKeyError:

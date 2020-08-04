@@ -16,11 +16,8 @@ curl --request POST \
 When smbd follows the link, sends info about it send to ```callbackUrl``` toghether with user agent.
 
 ## TO-DO
-- [x] Parce User Agent
-- [x] Add time to link followed
 - [ ] Web interface
 - [ ] Better Error Handling
-  - [x] No doc found
   - [ ] No requered arguments passed 
 - [ ] API Documentation
 - [ ] Instructions about how to set up it

@@ -38,6 +38,13 @@ def hello_world():
     return 'Hello, World!'
 
 
+def send_callbak(callbackUrl, data):
+    headers = {'content-type': 'application/json'}
+    requests.request(
+        "POST", callbackUrl, data=json.dumps(data), headers=headers
+    )
+
+
 @app.route('/<route>')
 def redirect_user(route):
     doc = urls.find_one({"shortLink": route})
@@ -48,11 +55,7 @@ def redirect_user(route):
         doc['timestamp'] = time.time()
         doc['userAgent'] = request.headers.get('User-Agent')
         doc['device'] = device_parser(doc['userAgent'])
-        # TODO Move webhook call to separate function
-        headers = {'content-type': 'application/json'}
-        requests.request(
-            "POST", url, data=json.dumps(doc), headers=headers
-            )
+        send_callbak(url, doc)
         return redirect(doc['redirectTo'])
     except KeyError:
         return redirect(doc['redirectTo'])

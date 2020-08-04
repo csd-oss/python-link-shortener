@@ -48,6 +48,7 @@ def redirect_user(route):
         doc['timestamp'] = time.time()
         doc['userAgent'] = request.headers.get('User-Agent')
         doc['device'] = device_parser(doc['userAgent'])
+        # TODO Move webhook call to separate function
         headers = {'content-type': 'application/json'}
         requests.request(
             "POST", url, data=json.dumps(doc), headers=headers

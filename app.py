@@ -59,7 +59,8 @@ def redirect_user(route):
         raise Error("No link found",   status_code=404)
 
 
-@app.route('/addShortLink', methods=['POST'])
+# TODO Web interface for adding links
+@app.route('/addShortLink', methods=['POST', 'GET'])
 def add_short_link():
     doc = request.get_json()
     try:

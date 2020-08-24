@@ -1,5 +1,4 @@
 import json
-import time
 from random import randint
 
 import requests
@@ -8,8 +7,8 @@ from flask import Flask, jsonify, redirect, request
 from pymongo.errors import DuplicateKeyError
 
 from db import urls
-from device_parser import device_parser
 from mongoflask import MongoJSONEncoder, ObjectIdConverter
+from url import Url
 
 app = Flask(__name__)
 app.json_encoder = MongoJSONEncoder
@@ -52,12 +51,14 @@ def send_callbak(callbackUrl, data):
 def redirect_user(shortLink):
     doc = urls.find_one({"shortLink": shortLink})
     try:
-        url = doc['callbackUrl']
+        callbackUrl = doc['callbackUrl']
         doc['_id'] = str(doc['_id'])
-        doc['timestamp'] = time.time()
         doc['userAgent'] = request.headers.get('User-Agent')
-        doc['device'] = device_parser(doc['userAgent'])
-        send_callbak(url, doc)
+        url = Url(
+            shortLink=doc['shortLink'], redirectTo=doc['redirectTo'],
+            _id=doc['_id'], userAgent=doc['userAgent'], callbackUrl=callbackUrl
+            )
+        url.send_callbak()
         return redirect(doc['redirectTo'])
     except KeyError:
         return redirect(doc['redirectTo'])

@@ -3,6 +3,8 @@ from pymongo.errors import DuplicateKeyError
 import requests
 import json
 import time
+import short_url
+from random import randint
 
 from db import urls
 from mongoflask import MongoJSONEncoder, ObjectIdConverter
@@ -67,14 +69,30 @@ def redirect_user(route):
 @app.route('/addShortLink', methods=['POST', 'GET'])
 def add_short_link():
     doc = request.get_json()
-    try:
-        # TODO Check neccecary fields
-        # Check neccecary fields exists and not null,
-        # if short link is not passed, than generate random one
-        urls.insert_one(doc)
-        return doc
-    except DuplicateKeyError:
-        raise Error("Not unique shortId", status_code=409)
+    if 'redirectTo' not in doc:
+        raise Error(
+            "The required parameter 'redirectTo' is missing",
+            status_code=400
+            )
+    else:
+        # TODO Refactor this to make it more undestandable
+        try:
+            try:
+                if ('shortLink' in doc) & (doc['shortLink'] != ""):
+                    urls.insert_one(doc)
+                    return doc
+                elif doc['shortLink'] == "":
+                    block_size = randint(0, 100000000)
+                    doc['shortLink'] = short_url.encode_url(block_size)
+                    urls.insert_one(doc)
+                    return doc
+            except KeyError:
+                block_size = randint(0, 100000000)
+                doc['shortLink'] = short_url.encode_url(block_size)
+                urls.insert_one(doc)
+                return doc
+        except DuplicateKeyError:
+            raise Error("Not unique shortId", status_code=409)
 
 
 if __name__ == "__main__":

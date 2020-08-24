@@ -40,13 +40,6 @@ def hello_world():
     return 'Hello, World!'
 
 
-def send_callbak(callbackUrl, data):
-    headers = {'content-type': 'application/json'}
-    requests.request(
-        "POST", callbackUrl, data=json.dumps(data), headers=headers
-    )
-
-
 @app.route('/<shortLink>')
 def redirect_user(shortLink):
     doc = urls.find_one({"shortLink": shortLink})

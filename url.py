@@ -33,6 +33,8 @@ class Url:
         return redirect(self.__redirectTo)
 
     def __parse_device(self):
+        # TODO This should be async probably, cos without it
+        # user gets reireted much faster
         device = DeviceDetector(self.__userAgent).parse()
         deviceObj = {
             "isBot": device.is_bot(),

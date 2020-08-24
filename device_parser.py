@@ -1,7 +1,6 @@
 from device_detector import DeviceDetector
 
 
-# TODO Add more fields to deviceObj
 def device_parser(ua):
     device = DeviceDetector(ua).parse()
     deviceObj = {

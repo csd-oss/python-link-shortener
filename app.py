@@ -75,3 +75,7 @@ def add_short_link():
         return doc
     except DuplicateKeyError:
         raise Error("Not unique shortId", status_code=409)
+
+
+if __name__ == "__main__":
+    app.run()

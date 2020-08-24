@@ -1,6 +1,6 @@
 import json
 import time
-
+from flask import redirect
 import requests
 from device_detector import DeviceDetector
 
@@ -28,6 +28,9 @@ class Url:
             )
         else:
             pass
+
+    def redirect_user(self):
+        return redirect(self.__redirectTo)
 
     def __parse_device(self):
         device = DeviceDetector(self.__userAgent).parse()

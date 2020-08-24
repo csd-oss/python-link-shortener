@@ -1,7 +1,7 @@
 from random import randint
 
 import short_url
-from flask import Flask, jsonify, redirect, request
+from flask import Flask, jsonify, request
 from pymongo.errors import DuplicateKeyError
 
 from db import urls
@@ -50,9 +50,9 @@ def redirect_user(shortLink):
             _id=doc['_id'], userAgent=doc['userAgent'], callbackUrl=callbackUrl
             )
         url.send_callbak()
-        return redirect(doc['redirectTo'])
+        return url.redirect_user()
     except KeyError:
-        return redirect(doc['redirectTo'])
+        return url.redirect_user()
     except TypeError:
         raise Error("No link found",   status_code=404)
 

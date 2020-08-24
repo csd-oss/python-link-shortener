@@ -1,7 +1,5 @@
-import json
 from random import randint
 
-import requests
 import short_url
 from flask import Flask, jsonify, redirect, request
 from pymongo.errors import DuplicateKeyError

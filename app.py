@@ -1,14 +1,15 @@
-from flask import Flask, redirect, request, jsonify
-from pymongo.errors import DuplicateKeyError
-import requests
 import json
 import time
-import short_url
 from random import randint
 
+import requests
+import short_url
+from flask import Flask, jsonify, redirect, request
+from pymongo.errors import DuplicateKeyError
+
 from db import urls
-from mongoflask import MongoJSONEncoder, ObjectIdConverter
 from device_parser import device_parser
+from mongoflask import MongoJSONEncoder, ObjectIdConverter
 
 app = Flask(__name__)
 app.json_encoder = MongoJSONEncoder

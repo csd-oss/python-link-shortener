@@ -54,7 +54,6 @@ def redirect_user(route):
     try:
         url = doc['callbackUrl']
         doc['_id'] = str(doc['_id'])
-
         doc['timestamp'] = time.time()
         doc['userAgent'] = request.headers.get('User-Agent')
         doc['device'] = device_parser(doc['userAgent'])
@@ -74,7 +73,7 @@ def add_short_link():
         raise Error(
             "The required parameter 'redirectTo' is missing",
             status_code=400
-            )
+        )
     else:
         # TODO Refactor this to make it more undestandable
         try:

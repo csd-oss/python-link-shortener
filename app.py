@@ -41,20 +41,29 @@ def hello_world():
 @app.route('/<shortLink>')
 def redirect_user(shortLink):
     doc = urls.find_one({"shortLink": shortLink})
-    try:
+
+    if doc is None:
+        raise Error("No link found",   status_code=404)
+
+    _id = str(doc['_id'])
+    shortLink = doc['shortLink']
+    redirectTo = doc['redirectTo']
+    userAgent = request.headers.get('User-Agent')
+
+    if 'callbackUrl' in doc:
         callbackUrl = doc['callbackUrl']
-        doc['_id'] = str(doc['_id'])
-        doc['userAgent'] = request.headers.get('User-Agent')
         url = Url(
-            shortLink=doc['shortLink'], redirectTo=doc['redirectTo'],
-            _id=doc['_id'], userAgent=doc['userAgent'], callbackUrl=callbackUrl
+            shortLink=shortLink, redirectTo=redirectTo,
+            _id=_id, userAgent=userAgent, callbackUrl=callbackUrl
             )
         url.send_callbak()
         return url.redirect_user()
-    except KeyError:
+    else:
+        url = Url(
+            shortLink=shortLink, redirectTo=redirectTo,
+            _id=_id, userAgent=userAgent
+            )
         return url.redirect_user()
-    except TypeError:
-        raise Error("No link found",   status_code=404)
 
 
 # TODO Web interface for adding links

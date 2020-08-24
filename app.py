@@ -48,9 +48,9 @@ def send_callbak(callbackUrl, data):
     )
 
 
-@app.route('/<route>')
-def redirect_user(route):
-    doc = urls.find_one({"shortLink": route})
+@app.route('/<shortLink>')
+def redirect_user(shortLink):
+    doc = urls.find_one({"shortLink": shortLink})
     try:
         url = doc['callbackUrl']
         doc['_id'] = str(doc['_id'])

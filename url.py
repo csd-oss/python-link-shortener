@@ -1,8 +1,9 @@
 import json
 import time
-from flask import redirect
+
 import requests
 from device_detector import DeviceDetector
+from flask import redirect
 
 
 class Url:

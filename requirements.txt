@@ -9,7 +9,7 @@ device_detector == 0.10
 # link/app.py: 4
 # link/mongoflask.py: 5
 # link/url.py: 6
-flask == 1.1.2
+flask == 2.3.2
 
 # link/mongoflask.py: 3
 isodate == 0.6.0
